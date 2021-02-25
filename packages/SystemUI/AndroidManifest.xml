@@ -815,6 +815,12 @@
         <receiver android:name=".BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+              </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.android.settingslib.wifi.WifiTimeoutReceiver">
+            <intent-filter>
+                <action android:name="android.net.wifi.intent.TIMEOUT" />
             </intent-filter>
         </receiver>
 
