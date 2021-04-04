@@ -72,15 +72,7 @@ public class FODCircleView extends ImageView {
     private int mDreamingOffsetX;
     private int mDreamingOffsetY;
 
-<<<<<<< HEAD
     private boolean mFading;
-=======
-    private  boolean mShouldBoostBrightness;
-
-    private int mColor;
-    private int mColorBackground;
-
->>>>>>> 785a22fae69c (SystemUI: update mShouldBoostBrightness right before checking it)
     private boolean mIsBouncer;
     private boolean mIsBiometricRunning;
     private boolean mIsCircleShowing;
@@ -210,6 +202,7 @@ public class FODCircleView extends ImageView {
         }
 
         try {
+            mShouldBoostBrightness = daemon.shouldBoostBrightness();
             mPositionX = daemon.getPositionX();
             mPositionY = daemon.getPositionY();
             mSize = daemon.getSize();
@@ -485,7 +478,6 @@ public class FODCircleView extends ImageView {
             IFingerprintInscreen daemon = getFingerprintInScreenDaemon();
             try {
                 dimAmount = daemon.getDimAmount(curBrightness);
-                mShouldBoostBrightness = daemon.shouldBoostBrightness();
             } catch (RemoteException e) {
                 // do nothing
             }
