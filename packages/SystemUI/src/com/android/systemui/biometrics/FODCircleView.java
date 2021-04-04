@@ -184,13 +184,6 @@ public class FODCircleView extends ImageView {
         }
 
         @Override
-        public void onStartedWakingUp() {
-            if (mUpdateMonitor.isFingerprintDetectionRunning()) {
-                show();
-            }
-        }
-
-        @Override
         public void onScreenTurnedOn() {
             if (mUpdateMonitor.isFingerprintDetectionRunning()) {
                 show();
