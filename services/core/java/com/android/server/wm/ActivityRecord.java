@@ -416,7 +416,7 @@ final class ActivityRecord extends WindowToken implements WindowManagerService.A
     // mOccludesParent field.
     final boolean hasWallpaper;
     // Input application handle used by the input dispatcher.
-    final InputApplicationHandle mInputApplicationHandle;
+    private InputApplicationHandle mInputApplicationHandle;
 
     final int launchedFromPid; // always the pid who started the activity.
     final int launchedFromUid; // always the uid who started the activity.
@@ -748,6 +748,12 @@ final class ActivityRecord extends WindowToken implements WindowManagerService.A
             }
         }
     };
+
+    private final float mFullScreenAspectRatio = Resources.getSystem().getFloat(
+                    com.android.internal.R.dimen.config_screenAspectRatio);
+
+    private final boolean higherAspectRatio = Resources.getSystem().getBoolean(
+            com.android.internal.R.bool.config_haveHigherAspectRatioScreen);
 
     private static String startingWindowStateToString(int state) {
         switch (state) {
@@ -1501,7 +1507,6 @@ final class ActivityRecord extends WindowToken implements WindowManagerService.A
         info = aInfo;
         mUserId = UserHandle.getUserId(info.applicationInfo.uid);
         packageName = info.applicationInfo.packageName;
-        mInputApplicationHandle = new InputApplicationHandle(appToken);
         intent = _intent;
 
         // If the class name in the intent doesn't match that of the target, this is probably an
@@ -1684,6 +1689,21 @@ final class ActivityRecord extends WindowToken implements WindowManagerService.A
             }
         }
         return lockTaskLaunchMode;
+    }
+
+    @NonNull InputApplicationHandle getInputApplicationHandle(boolean update) {
+        if (mInputApplicationHandle == null) {
+            mInputApplicationHandle = new InputApplicationHandle(appToken, toString(),
+                    mInputDispatchingTimeoutNanos);
+        } else if (update) {
+            final String name = toString();
+            if (mInputDispatchingTimeoutNanos != mInputApplicationHandle.dispatchingTimeoutNanos
+                    || !name.equals(mInputApplicationHandle.name)) {
+                mInputApplicationHandle = new InputApplicationHandle(appToken, name,
+                        mInputDispatchingTimeoutNanos);
+            }
+        }
+        return mInputApplicationHandle;
     }
 
     @Override
@@ -6387,10 +6407,14 @@ final class ActivityRecord extends WindowToken implements WindowManagerService.A
 
         // The rest of the condition is that only one side is smaller than the parent, but it still
         // needs to exclude the cases where the size is limited by the fixed aspect ratio.
-        if (info.maxAspectRatio > 0) {
+        float maxAspectRatio = (higherAspectRatio && info.applicationInfo.targetSdkVersion
+                             < android.os.Build.VERSION_CODES.O) ? mFullScreenAspectRatio
+                             : info.maxAspectRatio;
+
+        if (maxAspectRatio > 0) {
             final float aspectRatio = (0.5f + Math.max(appWidth, appHeight))
                     / Math.min(appWidth, appHeight);
-            if (aspectRatio >= info.maxAspectRatio) {
+            if (aspectRatio >= maxAspectRatio) {
                 // The current size has reached the max aspect ratio.
                 return false;
             }
@@ -6823,7 +6847,11 @@ final class ActivityRecord extends WindowToken implements WindowManagerService.A
     // TODO(b/36505427): Consider moving this method and similar ones to ConfigurationContainer.
     private void applyAspectRatio(Rect outBounds, Rect containingAppBounds,
             Rect containingBounds) {
-        final float maxAspectRatio = info.maxAspectRatio;
+
+        final float maxAspectRatio = (higherAspectRatio && info.applicationInfo.targetSdkVersion
+                             < android.os.Build.VERSION_CODES.O) ? mFullScreenAspectRatio
+                             : info.maxAspectRatio;
+
         final ActivityStack stack = getRootTask();
         final float minAspectRatio = info.minAspectRatio;
 
