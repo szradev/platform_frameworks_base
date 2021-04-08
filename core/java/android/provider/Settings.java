@@ -5136,6 +5136,14 @@ public final class Settings {
         public static final String FP_SUCCESS_VIBRATE = "fingerprint_success_vib";
 
         /**
+         * Navigation bar hint.
+         * Type: int (0 for false, 1 for true)
+         * Default: 0
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_HINT = "navigation_bar_hint";
+
+        /**
           * Volume keys control cursor in text fields (default is 0)
           * 0 - Disabled
           * 1 - Volume up/down moves cursor left/right
@@ -12654,13 +12662,7 @@ public final class Settings {
          * disable window animations.
          */
 
-         /**
-          * Navigation bar hint.
-          * Type: int (0 for false, 1 for true)
-          * Default: 0
-          * @hide
-          */
-         public static final String NAVIGATION_BAR_HINT = "navigation_bar_hint";
+
 
 
         public static final String WINDOW_ANIMATION_SCALE = "window_animation_scale";
