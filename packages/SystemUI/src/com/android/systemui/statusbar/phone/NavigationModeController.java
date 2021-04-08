@@ -133,9 +133,10 @@ public class NavigationModeController implements Dumpable {
     public void updateCurrentInteractionMode(boolean notify) {
         mCurrentUserContext = getCurrentUserContext();
         int mode = getCurrentInteractionMode(mCurrentUserContext);
+
         if (mode == NAV_BAR_MODE_GESTURAL) {
-          boolean hidden = Settings.Secure.getInt(mCurrentUserContext.getContentResolver(),
-                  Secure.NAVIGATION_BAR_HINT) == 1;
+          boolean hidden Settings.Global.getIntForUser(mContext.getContentResolver(),
+            Settings.System.NAVIGATION_BAR_HINT, 1, UserHandle.USER_CURRENT) == 1;
           switchToDefaultGestureNavOverlayIfNecessary(hidden);
         }
         mUiBgExecutor.execute(() ->
