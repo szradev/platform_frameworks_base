@@ -12653,6 +12653,16 @@ public final class Settings {
          * Scaling factor for normal window animations. Setting to 0 will
          * disable window animations.
          */
+
+         /**
+          * Navigation bar hint.
+          * Type: int (0 for false, 1 for true)
+          * Default: 0
+          * @hide
+          */
+         public static final String NAVIGATION_BAR_HINT = "navigation_bar_hint";
+
+
         public static final String WINDOW_ANIMATION_SCALE = "window_animation_scale";
 
         /**
