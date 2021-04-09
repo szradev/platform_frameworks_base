@@ -151,6 +151,8 @@ public class NavigationBarView extends FrameLayout implements
     private NotificationPanelViewController mPanelView;
     private FloatingRotationButton mFloatingRotationButton;
     private RotationButtonController mRotationButtonController;
+    private boolean mHomeHandleForceHidden;
+
 
     /**
      * Helper that is responsible for showing the right toast when a disallowed activity operation
