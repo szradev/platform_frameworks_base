@@ -325,7 +325,7 @@ public class DeviceIdleController extends SystemService
     private ConstraintController mConstraintController;
 
     // Aggressive Idle
-    private boolean mAggressiveIdle = false;
+    private boolean mAggressiveIdle = true;
 
     /** Device is currently active. */
     @VisibleForTesting
