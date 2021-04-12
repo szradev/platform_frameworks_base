@@ -217,10 +217,13 @@ public class FODCircleView extends ImageView {
 
         Resources res = context.getResources();
 
-        mPaintFingerprint.setColor(res.getColor(R.color.config_fodColor));
+        mColor = res.getColor(R.color.config_fodColor);
+        mColorBackground = res.getColor(R.color.config_fodColorBackground);
+
+        mPaintFingerprint.setColor(mColor);
         mPaintFingerprint.setAntiAlias(true);
 
-        mPaintFingerprintBackground.setColor(res.getColor(R.color.config_fodColorBackground));
+        mPaintFingerprintBackground.setColor(mColorBackground);
         mPaintFingerprintBackground.setAntiAlias(true);
 
         mWindowManager = context.getSystemService(WindowManager.class);
