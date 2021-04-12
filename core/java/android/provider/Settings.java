@@ -5207,6 +5207,12 @@ public final class Settings {
         public static final String HARDWARE_KEYS_DISABLE = "hardware_keys_disable";
 
         /**
+         * Sensor block per-package
+         * @hide
+         */
+        public static final String SENSOR_BLOCK = "sensor_block";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -9426,6 +9432,18 @@ public final class Settings {
         public static final String ADAPTIVE_CONNECTIVITY_ENABLED = "adaptive_connectivity_enabled";
 
         /**
+         * Select from different navigation bar layouts
+         * @hide
+         */
+        public static final String NAVBAR_LAYOUT_VIEWS = "navbar_layout_views";
+
+        /**
+         * Inverse navigation bar layout
+         * @hide
+         */
+        public static final String NAVBAR_INVERSE_LAYOUT = "navbar_inverse_layout";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -9546,6 +9564,12 @@ public final class Settings {
          * @hide
          */
         public static final String LOCKSCREEN_MEDIA_METADATA = "lockscreen_media_metadata";
+
+        /**
+         * boolean value. toggles swipe up hint in gestural nav mode
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_HINT = "navigation_bar_hint";
     }
 
     /**
@@ -12634,6 +12658,22 @@ public final class Settings {
                 "adb_allowed_connection_time";
 
         /**
+         * Whether or not to use aggressive device idle constants and ignore motion.
+         * Type: int (0 for false, 1 for true)
+         * Default: 0
+         * @hide
+         */
+        public static final String AGGRESSIVE_IDLE_ENABLED = "aggressive_idle_enabled";
+
+        /**
+         * Whether or not to use aggressive app idle constants.
+         * Type: int (0 for false, 1 for true)
+         * Default: 0
+         * @hide
+         */
+        public static final String AGGRESSIVE_STANDBY_ENABLED = "aggressive_standby_enabled";
+
+        /**
          * Scaling factor for normal window animations. Setting to 0 will
          * disable window animations.
          */
@@ -14887,6 +14927,18 @@ public final class Settings {
          */
         public static final String NR_NSA_TRACKING_SCREEN_OFF_MODE =
                 "nr_nsa_tracking_screen_off_mode";
+
+        /**
+         * The amount of time in milliseconds before bluetooth is turned off
+         * @hide
+         */
+        public static final String BLUETOOTH_OFF_TIMEOUT = "bluetooth_off_timeout";
+
+        /**
+         * The amount of time in milliseconds before wifi is turned off
+         * @hide
+         */
+        public static final String WIFI_OFF_TIMEOUT = "wifi_off_timeout";
     }
 
     /**

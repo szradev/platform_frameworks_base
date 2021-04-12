@@ -60,7 +60,7 @@ public class FODCircleView extends ImageView {
     private final int mSize;
     private final int mDreamingMaxOffset;
     private final int mNavigationBarSize;
-    private final boolean mShouldBoostBrightness;
+//    private final boolean mShouldBoostBrightness;
     private final Paint mPaintFingerprintBackground = new Paint();
     private final Paint mPaintFingerprint = new Paint();
     private final WindowManager.LayoutParams mParams = new WindowManager.LayoutParams();
@@ -73,6 +73,12 @@ public class FODCircleView extends ImageView {
     private int mDreamingOffsetY;
 
     private boolean mFading;
+
+    private  boolean mShouldBoostBrightness;
+
+    private int mColor;
+    private int mColorBackground;
+
     private boolean mIsBouncer;
     private boolean mIsBiometricRunning;
     private boolean mIsCircleShowing;
@@ -168,7 +174,12 @@ public class FODCircleView extends ImageView {
 
         @Override
         public void onStartedGoingToSleep(int why) {
-            hide();
+         hide();
+       }
+
+        @Override
+        public void onScreenTurnedOff() {
+          //  hide();
         }
 
         @Override
@@ -197,7 +208,6 @@ public class FODCircleView extends ImageView {
         }
 
         try {
-            mShouldBoostBrightness = daemon.shouldBoostBrightness();
             mPositionX = daemon.getPositionX();
             mPositionY = daemon.getPositionY();
             mSize = daemon.getSize();
@@ -228,7 +238,8 @@ public class FODCircleView extends ImageView {
         mParams.packageName = "android";
         mParams.type = WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY;
         mParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
-                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         mParams.gravity = Gravity.TOP | Gravity.LEFT;
 
         mPressedParams.copyFrom(mParams);
@@ -472,6 +483,7 @@ public class FODCircleView extends ImageView {
             IFingerprintInscreen daemon = getFingerprintInScreenDaemon();
             try {
                 dimAmount = daemon.getDimAmount(curBrightness);
+                mShouldBoostBrightness = daemon.shouldBoostBrightness();
             } catch (RemoteException e) {
                 // do nothing
             }
