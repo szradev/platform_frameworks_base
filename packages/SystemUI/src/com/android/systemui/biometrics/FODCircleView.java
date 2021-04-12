@@ -52,6 +52,9 @@ import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.android.settingslib.utils.ThreadUtils;
+
+
 public class FODCircleView extends ImageView {
     private static final int FADE_ANIM_DURATION = 250;
 
@@ -367,8 +370,10 @@ public class FODCircleView extends ImageView {
         setKeepScreenOn(true);
 
         setDim(true);
-        dispatchPress();
-
+        setDim(true);
+        ThreadUtils.postOnBackgroundThread(() -> {
+            dispatchPress();
+        });
         setImageDrawable(null);
         invalidate();
     }
@@ -379,7 +384,9 @@ public class FODCircleView extends ImageView {
         setImageResource(R.drawable.fod_icon_default);
         invalidate();
 
-        dispatchRelease();
+        ThreadUtils.postOnBackgroundThread(() -> {
+            dispatchRelease();
+        });
         setDim(false);
 
         setKeepScreenOn(false);
@@ -413,7 +420,11 @@ public class FODCircleView extends ImageView {
                 .setDuration(FADE_ANIM_DURATION)
                 .withEndAction(() -> mFading = false)
                 .start();
-        dispatchShow();
+
+
+      ThreadUtils.postOnBackgroundThread(() -> {
+                   dispatchShow();
+               });
     }
 
     public void hide() {
@@ -426,7 +437,9 @@ public class FODCircleView extends ImageView {
                 })
                 .start();
         hideCircle();
-        dispatchHide();
+        ThreadUtils.postOnBackgroundThread(() -> {
+            dispatchHide();
+        });
     }
 
     private void updateAlpha() {
