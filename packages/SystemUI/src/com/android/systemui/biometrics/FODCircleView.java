@@ -163,10 +163,17 @@ public class FODCircleView extends ImageView {
 
         @Override
         public void onKeyguardVisibilityChanged(boolean showing) {
-            mIsKeyguard = showing;
-            updateStyle();
-            if (mFODAnimation != null) {
-                mFODAnimation.setAnimationKeyguard(mIsKeyguard);
+          mIsKeyguard = showing;
+          updateStyle();
+          updatePosition();
+          if (mFODAnimation != null) {
+              mFODAnimation.setAnimationKeyguard(mIsKeyguard);
+          }
+          if (!showing) {
+              hide();
+          } else {
+              updateAlpha();
+          }
         }
 
         @Override
