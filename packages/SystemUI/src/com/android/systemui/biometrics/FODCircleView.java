@@ -62,6 +62,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.android.settingslib.utils.ThreadUtils;
+import android.util.Log;
+import android.net.Uri;
+
+
 
 public class FODCircleView extends ImageView implements TunerService.Tunable {
 
@@ -85,14 +89,6 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
 
     private int mDreamingOffsetX;
     private int mDreamingOffsetY;
-
-    private boolean mDozeEnabled;
-    private boolean mFodGestureEnable;
-    private boolean mPressPending;
-    private boolean mScreenTurnedOn;
-
-    private PowerManager mPowerManager;
-    private PowerManager.WakeLock mWakeLock;
 
     private boolean mFading;
 
@@ -381,6 +377,7 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.FOD_ANIM),
                     false, this, UserHandle.USER_ALL);
+
         }
 
         @Override
@@ -388,6 +385,8 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
             if (uri.equals(Settings.System.getUriFor(
                     Settings.System.FOD_ANIM))) {
                 updateStyle();
+                update();
+                Log.d("FODFOD", "Change");
             }
         }
 
@@ -576,6 +575,7 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
         mIsRecognizingAnimEnabled = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.FOD_RECOGNIZING_ANIMATION, 0) != 0;
         if (mFODAnimation != null) {
+          Log.d("FODFOD"," Updatestyle in");
             mFODAnimation.update();
         }
     }
