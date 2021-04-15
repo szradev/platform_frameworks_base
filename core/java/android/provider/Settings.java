@@ -4891,6 +4891,12 @@ public final class Settings {
                 "double_tap_sleep_lockscreen";
 
         /**
+        * Enable/Disable screenshot sound
+        * @hide
+        */
+        public static final String SCREENSHOT_SOUND = "screenshot_sound";
+
+        /**
          * Three Finger Gesture from Oppo
          * @hide
          */
