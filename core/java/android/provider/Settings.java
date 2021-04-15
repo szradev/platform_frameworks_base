@@ -12697,9 +12697,19 @@ public final class Settings {
         public static final String AGGRESSIVE_STANDBY_ENABLED = "aggressive_standby_enabled";
 
         /**
+         * Whether or not to use aggressive device idle constants and ignore motion.
+         * Type: int (0 for false, 1 for true)
+         * Default: 0
+         * @hide
+         */
+        public static final String OUTDOOR_IDLE = "outdoor_idle_enabled";
+
+        /**
          * Scaling factor for normal window animations. Setting to 0 will
          * disable window animations.
          */
+
+
         public static final String WINDOW_ANIMATION_SCALE = "window_animation_scale";
 
         /**
