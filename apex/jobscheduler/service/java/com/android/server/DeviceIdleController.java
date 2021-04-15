@@ -327,6 +327,9 @@ public class DeviceIdleController extends SystemService
     // Aggressive Idle
     private boolean mAggressiveIdle = true;
 
+    //Outdoor idle
+    private boolan mOutdoorIdle = false;
+
     /** Device is currently active. */
     @VisibleForTesting
     static final int STATE_ACTIVE = 0;
@@ -1189,6 +1192,37 @@ public class DeviceIdleController extends SystemService
             put(KEY_NOTIFICATION_WHITELIST_DURATION, 30000l);
         }};
 
+        // Outdoor idle constants
+        private final Map<String, Long> outdoorConstants = new HashMap<String, Long>() {{
+            put(KEY_LIGHT_IDLE_AFTER_INACTIVE_TIMEOUT, 3000000l);
+            put(KEY_LIGHT_PRE_IDLE_TIMEOUT, 180000l);
+            put(KEY_LIGHT_IDLE_TIMEOUT, 3600000l);
+            put(KEY_LIGHT_IDLE_FACTOR, 2l);
+            put(KEY_LIGHT_MAX_IDLE_TIMEOUT, 21600000l);
+            put(KEY_LIGHT_IDLE_MAINTENANCE_MIN_BUDGET, 60000l);
+            put(KEY_LIGHT_IDLE_MAINTENANCE_MAX_BUDGET, 600000l);
+            put(KEY_MIN_LIGHT_MAINTENANCE_TIME, 30000l);
+            put(KEY_MIN_DEEP_MAINTENANCE_TIME, 30000l);
+            put(KEY_INACTIVE_TIMEOUT, 2592000000l);
+            put(KEY_SENSING_TIMEOUT, 240000l);
+            put(KEY_LOCATING_TIMEOUT, 30000l);
+            put(KEY_LOCATION_ACCURACY, 20l);
+            put(KEY_MOTION_INACTIVE_TIMEOUT, 2592000000l);
+            put(KEY_IDLE_AFTER_INACTIVE_TIMEOUT, 1800000l);
+            put(KEY_IDLE_PENDING_TIMEOUT, 300000l);
+            put(KEY_MAX_IDLE_PENDING_TIMEOUT, 600000l);
+            put(KEY_IDLE_PENDING_FACTOR, 2l);
+            put(KEY_IDLE_TIMEOUT, 3600000l);
+            put(KEY_MAX_IDLE_TIMEOUT, 360000l);
+            put(KEY_IDLE_FACTOR, 2l);
+            put(KEY_MIN_TIME_TO_ALARM, 3600000l);
+            put(KEY_MAX_TEMP_APP_WHITELIST_DURATION, 300000l);
+            put(KEY_MMS_TEMP_APP_WHITELIST_DURATION, 60000l);
+            put(KEY_SMS_TEMP_APP_WHITELIST_DURATION, 20000l);
+            put(KEY_NOTIFICATION_WHITELIST_DURATION, 30000l);
+        }};
+
+
         public Constants(Handler handler, ContentResolver resolver) {
             super(handler);
             mResolver = resolver;
@@ -1209,9 +1243,13 @@ public class DeviceIdleController extends SystemService
 
         private long getDurationWeighted(String key, long defaultValue) {
             long duration = defaultValue;
-            if (mAggressiveIdle)
+            if (mAggressiveIdle || mOutdoorIdle)
             try {
-                duration = aggressiveConstants.get(key);
+                if (mOutdoorIdle) {
+                  duration = (outdoorConstants.get(key) / 2); 
+                } else {
+                  duration = aggressiveConstants.get(key);
+                }
             } catch (Exception e) {
                 duration = mParser.getDurationMillis(key, defaultValue);
             }
@@ -1229,6 +1267,10 @@ public class DeviceIdleController extends SystemService
                     // Check if aggressive_standby_enabled has changed
                     mAggressiveIdle = Settings.Global.getInt(mResolver,
                         Settings.Global.AGGRESSIVE_IDLE_ENABLED) == 1;
+                    //check if ouddor idle is enabled
+                    mOutdoorIdle = Settings.Global.getInt(mResolver,
+                        Settings.Global.OUTDOOR_IDLE_ENABLED) == 1;
+
                 } catch (Exception e) {
                     // Failed to parse the settings string, log this and move on
                     // with defaults.
