@@ -42,6 +42,7 @@ public class FODAnimation extends ImageView {
 
     private int mSelectedAnim;
     private final int[] ANIMATION_STYLES = {
+        R.drawable.fod_miui_aurora_recognizing_anim.xml,
         R.drawable.fod_miui_normal_recognizing_anim,
         R.drawable.fod_miui_aod_recognizing_anim,
         R.drawable.fod_miui_aurora_recognizing_anim,
@@ -92,7 +93,7 @@ public class FODAnimation extends ImageView {
         mSelectedAnim = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.FOD_ANIM, 0);
 
-        setBackgroundResource(ANIMATION_STYLES[mSelectedAnim]);
+        setBackgroundResource(ANIMATION_STYLES[0]);
         recognizingAnim = (AnimationDrawable) getBackground();
     }
 
