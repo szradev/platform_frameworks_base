@@ -12857,7 +12857,7 @@ public final class Settings {
          * Default: 0
          * @hide
          */
-        public static final String OUTDOOR_IDLE = "outdoor_idle_enabled";
+        public static final String OUTDOOR_IDLE_ENABLED = "outdoor_idle_enabled";
 
         /**
          * Scaling factor for normal window animations. Setting to 0 will

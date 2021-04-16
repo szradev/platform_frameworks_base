@@ -1176,7 +1176,7 @@ public class DeviceIdleController extends SystemService
             put(KEY_INACTIVE_TIMEOUT, 1800000l);
             put(KEY_SENSING_TIMEOUT, 240000l);
             put(KEY_LOCATING_TIMEOUT, 30000l);
-            put(KEY_LOCATION_ACCURACY, 20l);
+            put(KEY_LOCATION_ACCURACY, 500l);
             put(KEY_MOTION_INACTIVE_TIMEOUT, 600000l);
             put(KEY_IDLE_AFTER_INACTIVE_TIMEOUT, 1800000l);
             put(KEY_IDLE_PENDING_TIMEOUT, 300000l);
@@ -1206,7 +1206,7 @@ public class DeviceIdleController extends SystemService
             put(KEY_INACTIVE_TIMEOUT, 2592000000l);
             put(KEY_SENSING_TIMEOUT, 240000l);
             put(KEY_LOCATING_TIMEOUT, 30000l);
-            put(KEY_LOCATION_ACCURACY, 20l);
+            put(KEY_LOCATION_ACCURACY, 1300l);
             put(KEY_MOTION_INACTIVE_TIMEOUT, 2592000000l);
             put(KEY_IDLE_AFTER_INACTIVE_TIMEOUT, 1800000l);
             put(KEY_IDLE_PENDING_TIMEOUT, 300000l);
@@ -1233,6 +1233,9 @@ public class DeviceIdleController extends SystemService
             mResolver.registerContentObserver(
                     Settings.Global.getUriFor(Settings.Global.AGGRESSIVE_IDLE_ENABLED),
                     false, this);
+            mResolver.registerContentObserver(
+                    Settings.Global.getUriFor(Settings.Global.OUTDOOR_IDLE_ENABLED),
+                    false, this);
             updateConstants();
         }
 
@@ -1246,7 +1249,7 @@ public class DeviceIdleController extends SystemService
             if (mAggressiveIdle || mOutdoorIdle)
             try {
                 if (mOutdoorIdle) {
-                  duration = (outdoorConstants.get(key) / 2); 
+                  duration = (outdoorConstants.get(key) / 2);
                 } else {
                   duration = aggressiveConstants.get(key);
                 }
