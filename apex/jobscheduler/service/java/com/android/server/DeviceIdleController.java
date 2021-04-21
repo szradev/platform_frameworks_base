@@ -328,7 +328,7 @@ public class DeviceIdleController extends SystemService
     private boolean mAggressiveIdle = true;
 
     //Outdoor idle
-    private boolan mOutdoorIdle = false;
+    private boolean mOutdoorIdle = false;
 
     /** Device is currently active. */
     @VisibleForTesting
